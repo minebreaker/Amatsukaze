@@ -1,0 +1,30 @@
+{
+    "name": "amatsukaze",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "clean": "rimraf out/*",
+        "bundle": "rollup --config",
+        "bundleTest": "rollup --config rollup.test.config.js",
+        "runTest": "npm run bundleTest && mocha out/test-all.js"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/lodash": "^4.14.118",
+        "@types/mocha": "^5.2.5",
+        "chai": "^4.2.0",
+        "immutable": "^4.0.0-rc.12",
+        "mocha": "^5.2.0",
+        "rimraf": "^2.6.2",
+        "rollup": "^0.67.1",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-node-resolve": "^3.4.0",
+        "rollup-plugin-typescript": "^1.0.0",
+        "tslint": "^5.11.0",
+        "typescript": "^3.1.6"
+    }
+}
