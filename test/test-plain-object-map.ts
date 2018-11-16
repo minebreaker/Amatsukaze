@@ -39,6 +39,16 @@ describe("PlainObjectMap", () => {
         })
     })
 
+    describe("#update", () => {
+        it("should create an immutable copy updating the key", () => {
+            const store = new PlainObjectMap({ "one": 1 })
+            const result = store.update("one", v => v * 2)
+
+            assert.equal(store.get("one"), 1)
+            assert.equal(result.get("one"), 2)
+        })
+    })
+
     describe("#delete", () => {
 
         it("should create an immutable copy without the key", () => {
