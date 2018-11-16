@@ -23,6 +23,17 @@ export class PlainObjectMap<T> {
         return new PlainObjectMap(Object.assign({}, this.store, newEntry))
     }
 
+    merge<U>(other: U | PlainObjectMap<U>): PlainObjectMap<T & U> {
+        if (other instanceof PlainObjectMap) {
+            const copy = Object.assign({}, this.store, other.store)
+            return new PlainObjectMap(copy)
+
+        } else {
+            const copy = Object.assign({}, this.store, other)
+            return new PlainObjectMap(copy)
+        }
+    }
+
     update<K extends keyof T>(
         key: K,
         updater: (value: T[K]) => T[K]

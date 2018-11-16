@@ -39,6 +39,22 @@ describe("PlainObjectMap", () => {
         })
     })
 
+    describe("#merge", () => {
+        it("should create an immutable copy merging a plain object", () => {
+            const store = new PlainObjectMap({ "one": 1 }).merge({ "two": 2 })
+
+            assert.equal(store.get("one"), 1)
+            assert.equal(store.get("two"), 2)
+        })
+
+        it("should create an immutable copy merging a PlainObjectMap instance", () => {
+            const store = new PlainObjectMap({ "one": 1 }).merge(new PlainObjectMap({ "two": 2 }))
+
+            assert.equal(store.get("one"), 1)
+            assert.equal(store.get("two"), 2)
+        })
+    })
+
     describe("#update", () => {
         it("should create an immutable copy updating the key", () => {
             const store = new PlainObjectMap({ "one": 1 })
