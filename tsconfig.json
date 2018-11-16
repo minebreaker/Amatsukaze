@@ -5,6 +5,7 @@
         "target": "es6",
         "jsx": "react",
         "inlineSourceMap": true,
+        "newLine": "LF",
         "strict": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
