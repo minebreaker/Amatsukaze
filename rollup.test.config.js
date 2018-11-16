@@ -13,7 +13,7 @@ module.exports = {
         rollupTypescript(),
         rollupCommonJs({
             namedExports: {
-                "node_modules/chai/index.js": ["assert"]
+                "node_modules/chai/index.js": ["assert", "expect"]
             }
         }),
         rollupNodeResolve(),

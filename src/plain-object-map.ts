@@ -11,8 +11,22 @@ export class PlainObjectMap<T> {
         return this.store[key]
     }
 
-    set<K extends string, V, U extends { [P in K]: V }>(key: K, value: V): PlainObjectMap<T & U> {
+    has(key: string): boolean {
+        return key in this.store
+    }
+
+    set<K extends string, V, U extends { [_ in K]: V }>(key: K, value: V): PlainObjectMap<T & U> {
         const newEntry: U = <U> { [key]: value }
         return new PlainObjectMap(Object.assign({}, this.store, newEntry))
+    }
+
+    delete<K extends keyof T>(key: K): PlainObjectMap<Pick<T, Exclude<keyof T, K>>> {
+        const copy = Object.assign({}, this.store)
+        delete copy[key]
+        return new PlainObjectMap(copy)
+    }
+
+    remove<K extends keyof T>(key: K): PlainObjectMap<Pick<T, Exclude<keyof T, K>>> {
+        return this.delete(key)
     }
 }
