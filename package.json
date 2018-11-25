@@ -15,13 +15,14 @@
     },
     "author": "",
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": {
+        "immutable": "^4.0.0-rc.12"
+    },
     "devDependencies": {
         "@types/chai": "^4.1.7",
         "@types/lodash": "^4.14.118",
         "@types/mocha": "^5.2.5",
         "chai": "^4.2.0",
-        "immutable": "^4.0.0-rc.12",
         "mocha": "^5.2.0",
         "rimraf": "^2.6.2",
         "rollup": "^0.67.1",

@@ -1,4 +1,6 @@
-export class PlainObjectMap<T> {
+import { Seq, ValueObject } from "immutable"
+
+export class PlainObjectMap<T> implements ValueObject {
 
     // TODO does not expose public constructor
     constructor(private readonly store: T) {}
@@ -50,5 +52,14 @@ export class PlainObjectMap<T> {
 
     remove<K extends keyof T>(key: K): PlainObjectMap<Pick<T, Exclude<keyof T, K>>> {
         return this.delete(key)
+    }
+
+    hashCode(): number {
+        // TODO performance
+        return Seq.Keyed(this.store as any).hashCode()
+    }
+
+    equals(other: any): boolean {
+        return this === other || Seq(this.store as any).equals(other)
     }
 }

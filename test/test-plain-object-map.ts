@@ -1,5 +1,6 @@
 import { assert, expect } from "chai"
 import { PlainObjectMap } from "../src/plain-object-map"
+import { Record } from "immutable"
 
 describe("PlainObjectMap", () => {
 
@@ -77,6 +78,27 @@ describe("PlainObjectMap", () => {
             expect(() => result.get("one")).to.throw()
             //@ts-ignore
             expect(() => result.get("two")).to.throw()
+        })
+    })
+
+    describe("#hashCode", () => {
+        it("should be compatible with Immutable.js Record", () => {
+            const param = { "one": 1, "two": 2 }
+            const store = new PlainObjectMap(param)
+            const record = Record(param)()
+
+            assert.equal(store.hashCode(), record.hashCode())
+        })
+    })
+
+    describe("#euqals", () => {
+        it("should be compatible with Immutable.js Record", () => {
+            const param = { "one": 1, "two": 2 }
+            const store = new PlainObjectMap(param)
+            const record = Record(param)()
+
+            assert.isTrue(store.equals(record))
+            assert.isTrue(record.equals(store))
         })
     })
 })
