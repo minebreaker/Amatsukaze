@@ -36,12 +36,12 @@ export class PlainObjectMap<T> implements ValueObject {
         }
     }
 
-    update<K extends keyof T>(
+    update<K extends keyof T, V>(
         key: K,
-        updater: (value: T[K]) => T[K]
-    ): PlainObjectMap<T> {
+        updater: (value: T[K]) => V
+    ): PlainObjectMap<Pick<T, Exclude<keyof T, K>> & {K: V}> {
         const copy = Object.assign({}, this.store, { [key]: updater(this.store[key]) })
-        return new PlainObjectMap(copy)
+        return new PlainObjectMap(copy) as any
     }
 
     delete<K extends keyof T>(key: K): PlainObjectMap<Pick<T, Exclude<keyof T, K>>> {
