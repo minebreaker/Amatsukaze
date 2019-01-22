@@ -7,11 +7,11 @@
     "type": "type/index.d.ts",
     "scripts": {
         "clean": "rimraf out/*",
-        "build": "npm run bundle && npm run runTest && npm run declaration",
+        "build": "npm run bundle && npm run test && npm run declaration",
         "bundle": "rollup --config",
         "bundleTest": "rollup --config rollup.test.config.js",
         "declaration": "tsc --outDir type --newLine LF --lib ES6 --declaration --emitDeclarationOnly src/index.ts",
-        "runTest": "npm run bundleTest && mocha out/test-all.js"
+        "test": "npm run bundleTest && mocha out/test-all.js"
     },
     "author": "",
     "license": "MIT",
