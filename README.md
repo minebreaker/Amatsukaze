@@ -1,6 +1,6 @@
 # Amatsukaze
 
-Thin wrapper of Immutable.js, for slightly happier TypeScript development.
+Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for slightly happier TypeScript development.
 
 
 ## Why
@@ -14,6 +14,7 @@ Thin wrapper of Immutable.js, for slightly happier TypeScript development.
 ### `Map`
 
 * Values must have a same type (if you use standard type definitions)
+* Accepts null with no reason. This can be problematic.
 
 
 ### `Record`
@@ -22,3 +23,12 @@ Thin wrapper of Immutable.js, for slightly happier TypeScript development.
 * You cannot add additional properties. Must declare every single `Record`s with tiny differences you may use.
 
     * Amatsukaze leverages TypeScript duck typing
+
+
+### TODO
+
+* npm repo
+* Should provide option that rejects `null`
+* JavaDoc
+* Transactional references
+* Use Gulp to build

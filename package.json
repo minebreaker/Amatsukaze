@@ -9,9 +9,12 @@
         "clean": "rimraf out/*",
         "build": "npm run bundle && npm run test && npm run declaration",
         "bundle": "rollup --config",
-        "bundleTest": "rollup --config rollup.test.config.js",
         "declaration": "tsc --outDir type --newLine LF --lib ES6 --declaration --emitDeclarationOnly src/index.ts",
-        "test": "npm run bundleTest && mocha out/test-all.js"
+        "bundleTest": "rollup --config rollup.test.config.js",
+        "testModule": "npm run bundleTest && mocha out/test-all.js",
+        "test": "npm run testModule && npm run testCompilation",
+        "compileTestCompilation": "tsc test/test-compilation.ts --lib ES6 --outDir ./out",
+        "testCompilation": "npm run compileTestCompilation && node out/test-compilation.js"
     },
     "author": "",
     "license": "MIT",

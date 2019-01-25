@@ -1,0 +1,1 @@
+Files under this directory are to assure type-check behavior and should not compile successfully.
