@@ -1,4 +1,5 @@
 import { assert } from "chai"
+import { Struct } from "../src"
 
 
 interface Person {
@@ -27,6 +28,27 @@ describe("Plain JavaScript object", () => {
         const han: Person = Object.freeze({ firstName: "Han", lastName: "Solo" })
         const jaina = Object.assign({}, han, { firstName: "Jaina" })
 
-        assert.strictEqual(greet(jaina), "Hello, Jaina!")
+        assert.strictEqual(jaina.firstName, "Jaina")
+    })
+})
+
+describe("Map", () => {
+
+})
+
+describe("Record", () => {
+
+})
+
+describe("Struct", () => {
+    it("is type-safe using Struct values.", () => {
+        const s = Struct.of({ one: 1, two: "two", three: { foo: "bar" } })
+        const one: number = s.get("one")
+        const two: string = s.get("two")
+        const three: { foo: string } = s.get("three")
+
+        assert.strictEqual(one, 1)
+        assert.strictEqual(two, "two")
+        assert.deepStrictEqual(three, { foo: "bar" })
     })
 })

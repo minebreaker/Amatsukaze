@@ -1,6 +1,9 @@
 import { Map, ValueObject } from "immutable"
 
-export class Struct<T> implements ValueObject {  // TODO should extend Collection
+//@ts-ignore
+type Extract<T, K> = Pick<T, Exclude<keyof T, K>>
+
+export class Struct<T> implements ValueObject {
 
     //noinspection JSUnusedGlobalSymbols
     /**
@@ -8,9 +11,9 @@ export class Struct<T> implements ValueObject {  // TODO should extend Collectio
      *
      * TODO can be problematic when not implement Collection
      * @see https://github.com/facebook/immutable-js/blob/master/src/predicates/isImmutable.js
-     * @see https://github.com/facebook/immutable-js/blob/master/src/predicates/isCollection.js
+     * @see https://github.com/facebook/immutable-js/blob/master/src/predicates/isRecord.js
      */
-    readonly "@@__IMMUTABLE_ITERABLE__@@" = true
+    readonly "@@__IMMUTABLE_RECORD__@@" = true
 
     /**
      * Composite store map.
@@ -44,11 +47,11 @@ export class Struct<T> implements ValueObject {  // TODO should extend Collectio
         return this.store.has(key)
     }
 
-    set<K extends string, V, U extends { [_ in K]: V }>(key: K, value: V): Struct<T & U> {
+    set<K extends string, V, U extends { [_ in K]: V }>(key: K, value: V): Struct<Pick<T, Exclude<keyof T, K>> & U> {
         return new Struct(this.store.set(key, value)) as any
     }
 
-    merge<U extends { [key: string]: any }>(other: U | Struct<U>): Struct<T & U> {
+    merge<U extends { [key: string]: any }>(other: U | Struct<U>): Struct<Pick<T, Exclude<keyof T, keyof U>> & U> {
         if (other instanceof Struct) {
             return new Struct(this.store.merge(other.store)) as any
 
@@ -57,12 +60,12 @@ export class Struct<T> implements ValueObject {  // TODO should extend Collectio
         }
     }
 
-    //update<K extends keyof T, V>(
-    //    key: K,
-    //    updater: (value: T[K]) => V
-    //): Struct<Pick<T, Exclude<keyof T, K>> & { K: V }> {
-    //    return new Struct(this.store.update(key as string, updater)) as any
-    //}
+    update<K extends keyof T, V>(
+        key: K,
+        updater: (value: T[K]) => V
+    ): Struct<Pick<T, Exclude<keyof T, K>> & { [_ in K]: V }> {
+        return new Struct(this.store.update(key as string, updater)) as any
+    }
 
     delete<K extends keyof T>(key: K): Struct<Pick<T, Exclude<keyof T, K>>> {
         return new Struct(this.store.remove(key as string)) as any
@@ -84,7 +87,7 @@ export class Struct<T> implements ValueObject {  // TODO should extend Collectio
         return this === other || (other instanceof Struct && this.store.equals(other.store))
     }
 
-    unwrap(): Map<string, any> {
+    unwrap<T>(): Map<string, T> {
         return this.store
     }
 }
