@@ -1,5 +1,6 @@
 import { assert } from "chai"
 import { Struct } from "../src"
+import { Map, Record } from "immutable"
 
 
 interface Person {
@@ -33,11 +34,24 @@ describe("Plain JavaScript object", () => {
 })
 
 describe("Map", () => {
+    it("", () => {
+        const map = Map({firstName: "Han", lastName: "Solo"})
+        const result = greet(map.toObject()as unknown as Person)
 
+        assert.strictEqual(result, "Hello, Solo!")
+    })
 })
 
 describe("Record", () => {
+    it("", () => {
+        const person = Record({firstName: "Han", lastName: "Solo"})()
+        const result = greet(person)
 
+        assert.strictEqual(result, "Hello, Solo!")
+
+        //@ts-ignore
+        console.log(person.set("age", 20).toJS())
+    })
 })
 
 describe("Struct", () => {

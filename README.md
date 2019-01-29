@@ -15,6 +15,7 @@ Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for sli
 
 * Values must have a same type (if you use standard type definitions)
 * Accepts null with no reason. This can be problematic.
+* Schema is arbitrary. Cannot assure that the `Map` has a certain property.
 
 
 ### `Record`
@@ -32,3 +33,4 @@ Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for sli
 * JavaDoc
 * Transactional references
 * Use Gulp to build
+* Proxied structure

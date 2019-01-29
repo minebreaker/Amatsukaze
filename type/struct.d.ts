@@ -1,9 +1,10 @@
 import { Map, ValueObject } from "immutable";
-export declare class Struct<T> implements ValueObject {
+declare type Extract<T, K> = Pick<T, Exclude<keyof T, K>>;
+export declare class Struct<T extends Object> implements ValueObject {
     /**
-     * Symbol to claim that this instance is an immutable Collection.
+     * Symbol to claim that this instance is an immutable Record.
      *
-     * TODO can be problematic when not implement Collection
+     * TODO can be problematic when not implement Record
      * @see https://github.com/facebook/immutable-js/blob/master/src/predicates/isImmutable.js
      * @see https://github.com/facebook/immutable-js/blob/master/src/predicates/isRecord.js
      */
@@ -22,17 +23,20 @@ export declare class Struct<T> implements ValueObject {
     has(key: string): boolean;
     set<K extends string, V, U extends {
         [_ in K]: V;
-    }>(key: K, value: V): Struct<Pick<T, Exclude<keyof T, K>> & U>;
+    }>(key: K, value: V): Struct<Extract<T, K> & U>;
     merge<U extends {
         [key: string]: any;
-    }>(other: U | Struct<U>): Struct<Pick<T, Exclude<keyof T, keyof U>> & U>;
-    update<K extends keyof T, V>(key: K, updater: (value: T[K]) => V): Struct<Pick<T, Exclude<keyof T, K>> & {
+    }>(other: U | Struct<U>): Struct<Extract<T, keyof U> & U>;
+    update<K extends keyof T, V>(key: K, updater: (value: T[K]) => V): Struct<Extract<T, K> & {
         [_ in K]: V;
     }>;
-    delete<K extends keyof T>(key: K): Struct<Pick<T, Exclude<keyof T, K>>>;
-    remove<K extends keyof T>(key: K): Struct<Pick<T, Exclude<keyof T, K>>>;
+    delete<K extends keyof T>(key: K): Struct<Extract<T, K>>;
+    remove<K extends keyof T>(key: K): Struct<Extract<T, K>>;
     toJS(): T;
     hashCode(): number;
     equals(other: any): boolean;
     unwrap<T>(): Map<string, T>;
+    toString(): string;
+    [Symbol.iterator](): IterableIterator<[keyof T, T[keyof T]]>;
 }
+export {};
