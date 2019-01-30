@@ -1,4 +1,4 @@
-import {  Map, ValueObject } from "immutable"
+import { Map, ValueObject } from "immutable"
 
 type Extract<T, K> = Pick<T, Exclude<keyof T, K>>
 
@@ -95,8 +95,10 @@ export class Struct<T extends Object> implements ValueObject {
         return ""
     }
 
-    [Symbol.iterator](): IterableIterator<[keyof T, T[keyof T]]> {
-        throw new Error("not implemented yet")  // TODO
+    * [Symbol.iterator](): IterableIterator<[string, any]> {
+        for (const each of this.store.entries()) {
+            yield each
+        }
     }
 }
 

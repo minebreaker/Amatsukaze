@@ -126,4 +126,18 @@ describe("Struct", () => {
             assert.isTrue(Im.is(store.unwrap(), map))
         })
     })
+
+    describe("iterator", () => {
+        it("should be iterable with for..in loop", () => {
+            const store = Struct.of({ foo: 1, bar: 2, buz: 3 })
+            const result = []
+            for (const each of store) {
+                result.push(each)
+            }
+
+            assert.deepInclude(result, ["foo", 1])
+            assert.deepInclude(result, ["bar", 2])
+            assert.deepInclude(result, ["buz", 3])
+        })
+    })
 })
