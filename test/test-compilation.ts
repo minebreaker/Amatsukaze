@@ -4,6 +4,8 @@ import * as path from "path"
 
 
 const options: ts.CompilerOptions = {
+    target: ts.ScriptTarget.ES2015,
+    moduleResolution: ts.ModuleResolutionKind.NodeJs,
     strict: true,
     noImplicitAny: true,
     noEmit: true
@@ -39,7 +41,7 @@ function run() {
 
         if (result.length !== 0) {
             result.forEach(([file]) => {
-                console.log(`Test failed for file '${file}'`)
+                console.warn(`Test failed for file '${file}'`)
             })
 
             // Wait for console output and then exits
