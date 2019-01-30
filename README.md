@@ -26,9 +26,14 @@ Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for sli
     * Amatsukaze leverages TypeScript duck typing
 
 
-### TODO
+## TODO
 
 * npm repo
 * Should provide option that rejects `null`
 * Transactional references
 * Use Gulp to build
+
+
+## License
+
+MIT
