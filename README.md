@@ -30,7 +30,5 @@ Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for sli
 
 * npm repo
 * Should provide option that rejects `null`
-* JavaDoc
 * Transactional references
 * Use Gulp to build
-* Proxied structure

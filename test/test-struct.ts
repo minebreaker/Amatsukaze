@@ -5,6 +5,36 @@ import { Map } from "immutable"
 
 describe("Struct", () => {
 
+    describe("#constructor", () => {
+        it("should compile", () => {
+            const store = Struct.of({ foo: 123, bar: "456" })
+
+            assert.strictEqual(store.foo, 123)
+            assert.strictEqual(store.bar, "456")
+            assert.strictEqual(store["foo"], 123)
+            assert.strictEqual(store["bar"], "456")
+        })
+
+        it("should throw an error trying set values with assign operator", () => {
+            expect(() => Struct.of({ foo: "bar" }).foo = "buz")
+                .to.throw("It's not allowed to assign value to the Struct: {key: 'foo', value: 'buz'}")
+        })
+
+        it("should be allowed to use Struct as type interface", () => {
+            interface TestInterface {
+                foo: number
+                bar: string
+            }
+
+            function acceptsInterface(value: TestInterface) {
+                return Boolean(value.foo && value.bar)
+            }
+
+            const s = Struct.of({ foo: 123, bar: "buz" })
+            assert.isTrue(acceptsInterface(s))
+        })
+    })
+
     describe("#get", () => {
         it("should return values", () => {
             const store = Struct.of({ one: "one", two: 2, three: { foo: "bar" } })
@@ -15,7 +45,7 @@ describe("Struct", () => {
         })
 
         it("should throw an exception when the key does not exist", () => {
-            const store = Struct.of({})
+            const store = Struct.of()
             //@ts-ignore
             expect(() => store.get("one")).to.throw("No such element for the key 'one'.")
         })
@@ -112,7 +142,6 @@ describe("Struct", () => {
             const other = Struct.of({ "one": 1, "two": "two" })
 
             assert.isTrue(that.equals(other))
-
             assert.isFalse(that.equals(Struct.of({ "one": 1, "two": 2 })))
         })
     })

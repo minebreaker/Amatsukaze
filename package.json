@@ -9,11 +9,11 @@
         "clean": "rimraf out/*",
         "build": "npm run bundle && npm run test && npm run declaration",
         "bundle": "rollup --config",
-        "declaration": "tsc --outDir type --newLine LF --lib ES6 --declaration --emitDeclarationOnly src/index.ts",
+        "declaration": "tsc --outDir type --newLine LF --lib es6 --target es6 --module es6 --moduleResolution node --declaration --emitDeclarationOnly src/index.ts",
         "bundleTest": "rollup --config rollup.test.config.js",
         "testModule": "npm run bundleTest && mocha out/test-all.js",
         "test": "npm run testModule && npm run testCompilation",
-        "compileTestCompilation": "tsc test/test-compilation.ts --lib ES6 --outDir ./out",
+        "compileTestCompilation": "tsc test/test-compilation.ts --lib es6 --target es6 --module none --moduleResolution node --outDir ./out",
         "testCompilation": "npm run compileTestCompilation && node out/test-compilation.js"
     },
     "author": "",

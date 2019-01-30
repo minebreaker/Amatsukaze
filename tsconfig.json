@@ -3,7 +3,6 @@
         "module": "es6",
         "moduleResolution": "node",
         "target": "es6",
-        "jsx": "react",
         "inlineSourceMap": true,
         "newLine": "LF",
         "strict": true,

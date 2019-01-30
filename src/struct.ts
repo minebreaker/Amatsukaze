@@ -1,6 +1,10 @@
 import { Map, ValueObject } from "immutable"
 
-type Extract<T, K> = Pick<T, Exclude<keyof T, K>>
+type Subtract<T, K> = Pick<T, Exclude<keyof T, K>>
+
+type Banned = "get" | "has" | "set" | "merge" | "update" | "delete" | "remove" | "toJS" | "hashCode" | "equals"
+    | "unwrap" | "toString"
+type Allowed<T> = keyof T extends Banned ? never : T
 
 export class Struct<T extends Object> implements ValueObject {
 
@@ -27,8 +31,27 @@ export class Struct<T extends Object> implements ValueObject {
      * Creates new {@code Struct} instance.
      * @param initialValue Initial value
      */
-    static of<T>(initialValue?: T): Struct<T> {
-        return new Struct(initialValue)
+    static of<T>(initialValue?: Allowed<T>): Struct<T> & T {
+        return new (class extends Struct<T> {
+
+            constructor(initialValue?: T) {
+                super(initialValue)
+                if (initialValue) {
+                    Object.getOwnPropertyNames(initialValue).forEach(k => {
+                        Object.defineProperty(this, k, {
+                            enumerable: true,
+                            get() {
+                                return (initialValue as any)[k]
+                            },
+                            set(value: any) {
+                                throw new Error(`It's not allowed to assign value to the Struct: {key: '${k}', value: '${value}'}`)
+                            }
+                        })
+                    })
+                }
+            }
+
+        })(initialValue) as Struct<T> & T
     }
 
     get<K extends keyof T>(key: K): T[K] {
@@ -46,11 +69,11 @@ export class Struct<T extends Object> implements ValueObject {
         return this.store.has(key)
     }
 
-    set<K extends string, V, U extends { [_ in K]: V }>(key: K, value: V): Struct<Extract<T, K> & U> {
+    set<K extends string, V, U extends { [_ in K]: V }>(key: K, value: V): Struct<Subtract<T, K> & U> {
         return new Struct(this.store.set(key, value)) as any
     }
 
-    merge<U extends { [key: string]: any }>(other: U | Struct<U>): Struct<Extract<T, keyof U> & U> {
+    merge<U extends { [key: string]: any }>(other: U | Struct<U>): Struct<Subtract<T, keyof U> & U> {
         if (other instanceof Struct) {
             return new Struct(this.store.merge(other.store)) as any
 
@@ -62,15 +85,15 @@ export class Struct<T extends Object> implements ValueObject {
     update<K extends keyof T, V>(
         key: K,
         updater: (value: T[K]) => V
-    ): Struct<Extract<T, K> & { [_ in K]: V }> {
+    ): Struct<Subtract<T, K> & { [_ in K]: V }> {
         return new Struct(this.store.update(key as string, updater)) as any
     }
 
-    delete<K extends keyof T>(key: K): Struct<Extract<T, K>> {
+    delete<K extends keyof T>(key: K): Struct<Subtract<T, K>> {
         return new Struct(this.store.remove(key as string)) as any
     }
 
-    remove<K extends keyof T>(key: K): Struct<Extract<T, K>> {
+    remove<K extends keyof T>(key: K): Struct<Subtract<T, K>> {
         return this.delete(key)
     }
 
