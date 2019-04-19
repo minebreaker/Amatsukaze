@@ -5,8 +5,7 @@ const rollupCommonJs = require("rollup-plugin-commonjs")
 module.exports = {
     input: "test/test-all.ts",
     output: {
-        dir: "out",
-        file: "test-all.js",
+        file: "out/test-all.js",
         format: "esm"
     },
     plugins: [

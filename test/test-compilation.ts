@@ -11,7 +11,7 @@ const options: ts.CompilerOptions = {
     noEmit: true
 }
 
-function compile(fileName: string): ts.Diagnostic[] {
+function compile(fileName: string): ReadonlyArray<ts.Diagnostic> {
     const program = ts.createProgram([fileName], options)
     const diagnostics = ts.getPreEmitDiagnostics(program)
     if (diagnostics) {
