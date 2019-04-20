@@ -7,14 +7,15 @@
     "type": "type/index.d.ts",
     "scripts": {
         "clean": "rimraf out/* type/*",
-        "build": "npm run bundle && npm run test && npm run declaration",
-        "buildCi": "npm run bundle && npm run coverageCi && npm run declaration",
+        "build": "npm run bundle && npm run test && npm run lint && npm run declaration",
+        "buildCi": "npm run bundle && npm run coverageCi && npm run lint && npm run declaration",
         "bundle": "rollup --config",
         "declaration": "tsc --outDir type --newLine LF --lib es6 --target es6 --module es6 --moduleResolution node --declaration --emitDeclarationOnly src/index.ts",
         "test": "mocha",
         "testModule": "mocha --exclude test/test-compilation.ts",
         "coverage": "nyc --require ./test/register-helper --require source-map-support/register mocha --exclude test/test-compilation.ts",
-        "coverageCi": "nyc --reporter json mocha --exclude test/test-compilation.ts"
+        "coverageCi": "nyc --reporter json mocha --exclude test/test-compilation.ts",
+        "lint": "tslint --force src/*.ts"
     },
     "author": "",
     "license": "MIT",
