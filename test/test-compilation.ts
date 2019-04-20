@@ -54,4 +54,9 @@ function run() {
     })
 }
 
-run()
+describe("compilation", () => {
+    it("should fail to compile", () => {
+        run()
+    })
+})
+

@@ -6,15 +6,12 @@
     "main": "index.js",
     "type": "type/index.d.ts",
     "scripts": {
-        "clean": "rimraf out/*",
+        "clean": "rimraf out/* type/*",
         "build": "npm run bundle && npm run test && npm run declaration",
         "bundle": "rollup --config",
         "declaration": "tsc --outDir type --newLine LF --lib es6 --target es6 --module es6 --moduleResolution node --declaration --emitDeclarationOnly src/index.ts",
-        "bundleTest": "rollup --config rollup.test.config.js",
-        "testModule": "npm run bundleTest && mocha out/test-all.js",
-        "test": "npm run testModule && npm run testCompilation",
-        "compileTestCompilation": "tsc test/test-compilation.ts --lib es6 --target es6 --module none --moduleResolution node --outDir ./out",
-        "testCompilation": "npm run compileTestCompilation && node out/test-compilation.js"
+        "test": "mocha",
+        "testModule": "mocha --exclude test/test-compilation.ts"
     },
     "author": "",
     "license": "MIT",
@@ -22,6 +19,13 @@
         "immutable": "^4.0.0-rc.12"
     },
     "devDependencies": {
+        "@babel/core": "^7.4.3",
+        "@babel/plugin-proposal-class-properties": "^7.4.0",
+        "@babel/plugin-transform-runtime": "^7.4.3",
+        "@babel/preset-env": "^7.4.3",
+        "@babel/preset-typescript": "^7.3.3",
+        "@babel/register": "^7.4.0",
+        "@babel/runtime": "^7.4.3",
         "@types/chai": "^4.1.7",
         "@types/lodash": "^4.14.123",
         "@types/mocha": "^5.2.6",
@@ -32,6 +36,7 @@
         "rollup-plugin-commonjs": "^9.3.4",
         "rollup-plugin-node-resolve": "^4.2.3",
         "rollup-plugin-typescript": "^1.0.1",
+        "source-map-support": "^0.5.12",
         "tslint": "^5.16.0",
         "typescript": "^3.4.4"
     }

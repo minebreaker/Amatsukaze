@@ -1,5 +1,0 @@
-//import "./test-plain-object-map"
-import "./test-struct"
-import "./test-compatibility"
-import "./test-immutable-js"
-import "./sample"

@@ -21,8 +21,26 @@ export declare class Struct<T extends Object> implements ValueObject {
      * @param initialValue Initial value
      */
     static of<T>(initialValue?: Allowed<T>): Struct<T> & T;
+    /**
+     * Retrieves the value associated with the key.
+     * @param key Key
+     * @return Value of the key
+     * @throws When the key does not exist
+     */
     get<K extends keyof T>(key: K): T[K];
+    /**
+     * Checks if this store has the key.
+     * @param key The key to check
+     * @return true if the key exists
+     */
     has(key: string): boolean;
+    /**
+     * Returns the immutable copy of this store with given key and value.
+     * Replacing the value that is already exists.
+     * @param key Key
+     * @param value Value
+     * @return Copy with the pair
+     */
     set<K extends string, V, U extends {
         [_ in K]: V;
     }>(key: K, value: V): Struct<Subtract<T, K> & U>;
@@ -32,11 +50,22 @@ export declare class Struct<T extends Object> implements ValueObject {
     update<K extends keyof T, V>(key: K, updater: (value: T[K]) => V): Struct<Subtract<T, K> & {
         [_ in K]: V;
     }>;
+    /**
+     * Returns the immutable copy of this store without the given key.
+     * @param key Key to eliminate
+     */
     delete<K extends keyof T>(key: K): Struct<Subtract<T, K>>;
+    /**
+     * Alias for {@link Struct#delete}
+     */
     remove<K extends keyof T>(key: K): Struct<Subtract<T, K>>;
     toJS(): T;
     hashCode(): number;
     equals(other: any): boolean;
+    /**
+     * Returns the internal Map used by this instance.
+     * @return Map
+     */
     unwrap<T>(): Map<string, T>;
     toString(): string;
     [Symbol.iterator](): IterableIterator<[string, any]>;
