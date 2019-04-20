@@ -20,4 +20,7 @@ jobs:
                         - ./node_modules
             -   run:
                     name: build
-                    command: npm run build
+                    command: npm run buildCi
+            -   run:
+                    name: upload coverage
+                    command: bash <(curl -s https://codecov.io/bash)
