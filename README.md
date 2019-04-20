@@ -1,5 +1,7 @@
 # Amatsukaze
 
+[![CircleCI](https://circleci.com/gh/minebreaker/Amatsukaze.svg?style=svg)](https://circleci.com/gh/minebreaker/Amatsukaze)
+
 Thin wrapper of [Immutable.js](http://facebook.github.io/immutable-js/), for slightly happier TypeScript development.
 
 
