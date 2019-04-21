@@ -1,6 +1,7 @@
 import * as ts from "typescript"
 import * as fs from "fs"
 import * as path from "path"
+import { assert } from "chai"
 
 
 const options: ts.CompilerOptions = {
@@ -27,35 +28,24 @@ function run() {
 
     const testResourceDir = "./test-compile"
 
-    fs.readdir(testResourceDir, (e, files) => {
-        if (e) {
-            throw Error("IO failed.")
-        }
+    const result = fs
+        .readdirSync(testResourceDir)
+        .map(e => path.resolve(testResourceDir, e))
+        .filter(e => e.endsWith(".ts"))
+        .map(file => [file, compile(file)])
+        // filter successful compilation, if any, that test has failed
+        .filter(([_, diagnostics]) => diagnostics.length === 0)
 
-        const result = files
-            .map(e => path.resolve(testResourceDir, e))
-            .filter(e => e.endsWith(".ts"))
-            .map(file => [file, compile(file)])
-            // filter successful compilation, if any, that test has failed
-            .filter(([_, diagnostics]) => diagnostics.length === 0)
-
-        if (result.length !== 0) {
-            result.forEach(([file]) => {
-                console.warn(`Test failed for file '${file}'`)
-            })
-
-            // Wait for console output and then exits
-            setTimeout(() => {
-                process.exit(2)
-            }, 500)
-        } else {
-            console.log("Test was successful.")
-        }
-    })
+    if (result.length !== 0) {
+        const failedFileNames = result.map(e => `'${e}'`).join(", ")
+        assert.fail(null, null, `Test failed for files ${failedFileNames}`)
+    }
 }
 
 describe("compilation", () => {
-    it("should fail to compile", () => {
+    it("should fail to compile", function (this: any) {
+        this.timeout(100000)
+
         run()
     })
 })
